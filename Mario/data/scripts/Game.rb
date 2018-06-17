@@ -1,5 +1,5 @@
 class Game #klasa stanu gry, która zajmuje się logiką
-	attr_reader :solid, :mario
+	attr_reader :map, :mario
 	
 	def initialize
 		@objects = []

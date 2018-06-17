@@ -25,10 +25,61 @@ class Mario < GameObject
 	
 	def update
 		@vy += 1
+		
+		if button_down?(KbLeft) and @vx > -6
+			@vx -= 1
+		elsif button_down?(KbRight) and @vx < 6
+			@vx += 1
+		elsif !button_down?(KbLeft) and !button_down?(KbRight)
+			@vx -= (@vx <=> 0)
+		end
+		
+		if key_press(KbSpace) and on_floor?
+			@vy = -16
+		end
+		
+		if @vy > 0
+			@vy.abs.to_i.times do
+				if on_floor?
+					@vy = 0
+					break
+				end
+				@y += 1
+			end
+		elsif @vy < 0
+			@vy.abs.to_i.times do
+				if solid?(@x, @y - 1) or solid?(@x + 31, @y - 1)
+					@vy = 0
+				end
+				@y -= 1
+			end
+		end
+		
+		if @vx > 0
+			@vx.abs.to_i.times do
+				if solid?(@x + 32, @y) or solid?(@x + 32, @y + 63)
+					@vx = 0
+					break
+				end
+				@x += 1
+			end
+		elsif @vx < 0
+			@vx.abs.to_i.times do
+				if solid?(@x - 1, @y) or solid?(@x - 1, @y + 63)
+					@vx = 0
+					break
+				end
+				@x -= 1
+			end
+		end
 	end
 	
 	def draw
 		tls("Mario", 32, 64, @frame).draw(@x, @y, 2)
+	end
+	
+	def on_floor?
+		solid?(@x, @y + 64) or solid?(@x + 31, @y + 64)
 	end
 end
 

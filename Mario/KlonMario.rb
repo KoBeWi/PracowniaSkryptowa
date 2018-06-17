@@ -23,6 +23,7 @@ class GameWindow < Window #klasa okna gry
 	end
 
 	def button_up(id)
+		$_keypress&.delete(id)
 	end
 end
 
