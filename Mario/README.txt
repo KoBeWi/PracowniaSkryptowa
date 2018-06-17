@@ -7,3 +7,6 @@ Spacja - skakanie
 Potrzebne do uruchomienia:
 Ruby 2.3+
 Gosu (gem install gosu)
+
+Uruchomienie:
+ruby KlonMario.rb
