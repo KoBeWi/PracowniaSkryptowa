@@ -12,24 +12,24 @@ class GameWindow < Window #klasa okna gry
 		$state = Game.new #tworzymy nowy stan gry
 	end
 
-	def update
-		$state.update
+	def update #wywoływane co klatkę
+		$state.update #aktualizujemy stan gry
 	end
 
-	def draw
-		$state.draw
+	def draw #wywoływane co klatkę naprzemiennie z update
+		$state.draw #rysujemy stan gry
 	end
 
-	def button_down(id)
-		if id == KbReturn and $state.time <= 0
-			snd("Restart").play
-			$best_score = [$state.coins, $best_score].max
-			$state = Game.new
+	def button_down(id) #wywoływane na poczatku klatki, gdy klawisz jest właśnie wciśnięty
+		if id == KbReturn and $state.time <= 0 #gdy wciśnie się Enter, gra się restartuje
+			snd("Restart").play #dźwięk restartu
+			$best_score = [$state.coins, $best_score].max #aktualizujemy najlepszy wynik, gdy był lepszy
+			$state = Game.new #gra zaczyna się od nowa
 		end
 	end
 
-	def button_up(id)
-		$_keypress&.delete(id)
+	def button_up(id) #wywoływane, gdy klawisz jest właśnie pusczony
+		$_keypress&.delete(id) #zwalnia przycisk (patrz: Utility.rb)
 	end
 end
 
