@@ -1,4 +1,6 @@
 class GameObject
+	attr_reader :x, :y
+	
 	def mario
 		$state.mario
 	end
@@ -102,12 +104,20 @@ class CoinSpawner < GameObject
 	end
 	
 	def update
-		@coin = nil if @coin&.destroyed?
-		
+		if $state.time == 0
+			destroy
+			@coin&.destroy
+		end
+
 		if @@coin_count < 3 and !@coin and rand(300) == 0
 			@coin = Coin.new(@x, @y)
 			@@coin_count += 1
 			$state.add_object(@coin)
+		end
+		
+		if @coin&.destroyed?
+			@coin = nil
+			@@coin_count -= 1
 		end
 	end
 	
@@ -120,6 +130,10 @@ class Coin < GameObject
 	end
 	
 	def update
+		if mario.x.between?(@x - 30, @x + 31) and mario.y.between?(@y - 62, @y + 31)
+			destroy
+			$state.coins += 1
+		end
 	end
 	
 	def draw

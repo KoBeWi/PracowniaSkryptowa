@@ -9,6 +9,11 @@ def tls(name, w, h, id)
 	$_images[name][id]
 end
 
+def fnt(name, size)
+	$_fonts ||= {}
+	$_fonts[[name, size]] ||= Font.new(size, name: name)
+end
+
 def key_press(key)
 	$_keypress ||= {}
 	return false if $_keypress[key]
