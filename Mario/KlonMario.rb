@@ -12,9 +12,11 @@ class GameWindow < Window #klasa okna gry
 	end
 
 	def update
+		$state.update
 	end
 
 	def draw
+		$state.draw
 	end
 
 	def button_down(id)
