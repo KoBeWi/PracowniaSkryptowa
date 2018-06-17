@@ -22,6 +22,7 @@ class GameWindow < Window #klasa okna gry
 
 	def button_down(id)
 		if id == KbReturn and $state.time <= 0
+			snd("Restart").play
 			$best_score = [$state.coins, $best_score].max
 			$state = Game.new
 		end

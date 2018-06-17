@@ -9,6 +9,11 @@ def tls(name, w, h, id)
 	$_images[name][id]
 end
 
+def snd(name)
+	$_samples ||= {}
+	$_samples[name] ||= Sample.new("data/sfx/" + name + ".ogg")
+end
+
 def fnt(name, size)
 	$_fonts ||= {}
 	$_fonts[[name, size]] ||= Font.new(size, name: name)

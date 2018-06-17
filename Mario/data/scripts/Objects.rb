@@ -39,6 +39,7 @@ class Mario < GameObject
 		end
 		
 		if key_press(KbSpace) and on_floor?
+			snd("Jump").play
 			@vy = -16
 		end
 		
@@ -131,6 +132,7 @@ class Coin < GameObject
 	
 	def update
 		if mario.x.between?(@x - 30, @x + 31) and mario.y.between?(@y - 62, @y + 31)
+			snd("Coin").play
 			destroy
 			$state.coins += 1
 		end

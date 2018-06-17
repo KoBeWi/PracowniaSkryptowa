@@ -15,6 +15,9 @@ class Game #klasa stanu gry, która zajmuje się logiką
 		@objects.each(&:update)
 		@objects.delete_if{|obj| obj.destroyed?}
 		@time -= 1
+		
+		snd("Time").play if Array.new(6) {|i| (i+1) * 60}.include?(@time)
+		snd(@coins > $best_score ? "BestScore" : "WorseScore").play if @time == 0
 	end
 	
 	def draw
