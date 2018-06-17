@@ -1,6 +1,7 @@
 class Map
 	def initialize(state)
 		@tiles = []
+		@solid = {}
 		
 		File.readlines("data/map.txt").each.with_index do |line, y|
 			line.chomp.each_char.with_index do |char, x|
@@ -8,6 +9,7 @@ class Map
 					state.add_object CoinSpawner.new(x, y)
 				elsif char != "0"
 					@tiles << Tile.new(x, y, char.to_i-1)
+					@solid[[x, y]] = true
 				end
 			end
 		end
@@ -16,6 +18,10 @@ class Map
 	def draw
 		img("Background").draw(0, 0, 0)
 		@tiles.each(&:draw)
+	end
+	
+	def solid?(x, y)
+		@solid[[x, y]]
 	end
 end
 
