@@ -28,8 +28,10 @@ class Mario < GameObject
 		
 		if button_down?(KbLeft) and @vx > -6
 			@vx -= 1
+			@mirrored = false
 		elsif button_down?(KbRight) and @vx < 6
 			@vx += 1
+			@mirrored = true
 		elsif !button_down?(KbLeft) and !button_down?(KbRight)
 			@vx -= (@vx <=> 0)
 		end
@@ -50,6 +52,7 @@ class Mario < GameObject
 			@vy.abs.to_i.times do
 				if solid?(@x, @y - 1) or solid?(@x + 31, @y - 1)
 					@vy = 0
+					break
 				end
 				@y -= 1
 			end
@@ -72,10 +75,18 @@ class Mario < GameObject
 				@x -= 1
 			end
 		end
+		
+		if !on_floor?
+			@frame = 2
+		elsif @vx != 0
+			@frame = milliseconds / 100 % 2
+		else
+			@frame = 0
+		end
 	end
 	
 	def draw
-		tls("Mario", 32, 64, @frame).draw(@x, @y, 2)
+		tls("Mario", 32, 64, @frame).draw(@x + (@mirrored ? 32 : 0), @y, 2, @mirrored ? -1 : 1)
 	end
 	
 	def on_floor?
