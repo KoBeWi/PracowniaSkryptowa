@@ -8,6 +8,7 @@ class GameWindow < Window #klasa okna gry
 		super(640, 480, false) #konstruktor nadklasy Gosu::Window przyjmuje rozmiar i to, czy jest pełnoekranowe
 		self.caption = "Klon Mario"
 		
+		$best_score = 0
 		$state = Game.new #tworzymy nowy stan gry
 	end
 
@@ -20,6 +21,10 @@ class GameWindow < Window #klasa okna gry
 	end
 
 	def button_down(id)
+		if id == KbReturn and $state.time <= 0
+			$best_score = [$state.coins, $best_score].max
+			$state = Game.new
+		end
 	end
 
 	def button_up(id)
