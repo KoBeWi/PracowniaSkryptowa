@@ -1,15 +1,20 @@
 class Map
-	def initialize
+	def initialize(state)
 		@tiles = []
 		
 		File.readlines("data/map.txt").each.with_index do |line, y|
 			line.chomp.each_char.with_index do |char, x|
-				@tiles << Tile.new(x, y, char.to_i-1) if char != "0"
+				if char == "#"
+					state.add_object CoinSpawner.new(x, y)
+				elsif char != "0"
+					@tiles << Tile.new(x, y, char.to_i-1)
+				end
 			end
 		end
 	end
 	
 	def draw
+		img("Background").draw(0, 0, 0)
 		@tiles.each(&:draw)
 	end
 end
