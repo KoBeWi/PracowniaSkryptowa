@@ -4,6 +4,8 @@ let Application = PIXI.Application,
     resources = PIXI.loader.resources,
     TextureCache = PIXI.utils.TextureCache,
     Sprite = PIXI.Sprite
+    Text = PIXI.Text,
+    TextStyle = PIXI.TextStyle
 
 let app = new Application({
     width: 800, 
@@ -23,7 +25,9 @@ loader
 
 let ball
 let leftPaddle
+let leftScore
 let rightPaddle
+let rightScore
 
 function setup() {
 	let up = keyboard(38),
@@ -58,6 +62,15 @@ function setup() {
 		ball.vx = -4
 		ball.vy = rightPaddle.vy
 	}}
+	
+	rightScore = new Text("0", new TextStyle({
+		align: "right",
+		fontFamily: "sans-serif",
+		fontSize: 18,
+		fill: "cyan",
+	}))
+	rightScore.position.set(780, 291)
+	app.stage.addChild(rightScore)
 
 	leftPaddle = new Sprite(resources["data/gfx/Paddle.png"].texture)
 	app.stage.addChild(leftPaddle)
@@ -79,6 +92,14 @@ function setup() {
 		ball.vx = 4
 		ball.vy = leftPaddle.vy
 	}}
+	
+	leftScore = new Text("0", new TextStyle({
+		fontFamily: "sans-serif",
+		fontSize: 18,
+		fill: "red",
+	}))
+	leftScore.position.set(20, 291)
+	app.stage.addChild(leftScore)
 
 	app.ticker.add(delta => gameLoop(delta))
 }
@@ -111,8 +132,10 @@ function gameLoop(delta){
 	
 	if (ball.x < -20) {
 		ball.owner = leftPaddle
+		rightScore.text = String(parseInt(rightScore.text)+1)
 	} else if (ball.x > 800) {
 		ball.owner = rightPaddle
+		leftScore.text = String(parseInt(leftScore.text)+1)
 	}
 }
 
