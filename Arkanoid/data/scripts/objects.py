@@ -15,8 +15,9 @@ class Brick:
 	def draw(self, screen):
 		screen.blit(self.texture, (self.x, self.y))
 	
-	def destroy(self):
+	def destroy(self, state):
 		self.destroyed = True
+		state.score += 10
 		
 class Paddle:
 	def __init__(self):
@@ -53,7 +54,7 @@ class Ball:
 			for i in range(self.SPEED):
 				check_brick = [brick for brick in bricks if self.collides(brick, self.vx, 0)]
 				if check_brick:
-					check_brick[0].destroy()
+					check_brick[0].destroy(state)
 					self.vx = -self.vx
 				elif self.vx < 0 and (self.x <= 0) or self.vx > 0 and (self.x >= 780):
 					self.vx = -self.vx
@@ -62,7 +63,7 @@ class Ball:
 				
 				check_brick = [brick for brick in bricks if self.collides(brick, 0, self.vy)]
 				if check_brick:
-					check_brick[0].destroy()
+					check_brick[0].destroy(state)
 					self.vy = -self.vy
 				elif self.vy < 0 and (self.y <= 0):
 					self.vy = -self.vy
@@ -78,6 +79,11 @@ class Ball:
 				self.vx = 1
 				self.vy = -1
 				self.started = False
+				
+				state.lifes -= 1
+				if state.lifes == 0:
+					state.lifes = 3
+					state.score = 0
 		else:
 			self.x = self.paddle.x + 70
 	
