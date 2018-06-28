@@ -3,6 +3,7 @@ from data.scripts.game import Game
 
 class Window:
 	def __init__(self, width = 800, height = 600):
+		pygame.mixer.pre_init(44100, -16, 1, 512)
 		pygame.init()
 		self.width = width
 		self.height = height
@@ -19,7 +20,7 @@ class Window:
 					return
 				elif event.type == pygame.MOUSEBUTTONDOWN:
 					self.state.click()
-					
+			
 			self.clock.tick(60)
 			self.update()
 			self.screen.fill((0,0,0))
