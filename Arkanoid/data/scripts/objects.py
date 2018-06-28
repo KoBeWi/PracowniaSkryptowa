@@ -14,6 +14,9 @@ class Brick:
 	
 	def draw(self, screen):
 		screen.blit(self.texture, (self.x, self.y))
+	
+	def destroy(self):
+		self.destroyed = True
 		
 class Paddle:
 	def __init__(self):
@@ -45,14 +48,27 @@ class Ball:
 		if state.clicked: self.started = True
 	
 		if self.started:
+			bricks = state.get_objects(Brick)
+		
 			for i in range(self.SPEED):
-				if self.vx < 0 and (self.x <= 0) or self.vx > 0 and (self.x >= 780):
-					self.vx *= -1
+				check_brick = [brick for brick in bricks if self.collides(brick, self.vx, 0)]
+				if check_brick:
+					check_brick[0].destroy()
+					self.vx = -self.vx
+				elif self.vx < 0 and (self.x <= 0) or self.vx > 0 and (self.x >= 780):
+					self.vx = -self.vx
 				else:
 					self.x += self.vx
 				
-				if self.vy < 0 and (self.y <= 0) or self.vy > 0 and (self.collides(self.paddle)):
-					self.vy *= -1
+				check_brick = [brick for brick in bricks if self.collides(brick, 0, self.vy)]
+				if check_brick:
+					check_brick[0].destroy()
+					self.vy = -self.vy
+				elif self.vy < 0 and (self.y <= 0):
+					self.vy = -self.vy
+				elif self.vy > 0 and self.collides(self.paddle, 0, self.vy):
+					self.vx = ((self.x + 20) - (self.paddle.x + 80)) / 80.0
+					self.vy = -self.vy
 				else:
 					self.y += self.vy
 			
@@ -68,5 +84,5 @@ class Ball:
 	def draw(self, screen):
 		screen.blit(self.texture, (self.x, self.y))
 	
-	def collides(self, object):
-		return self.x < object.x + object.w and self.x + 20 > object.x and self.y < object.y + object.h and self.y + 20 > object.y
+	def collides(self, object, dx, dy):
+		return self.x + dx < object.x + object.w and self.x + dx + 20 > object.x and self.y + dy < object.y + object.h and self.y + dy + 20 > object.y
