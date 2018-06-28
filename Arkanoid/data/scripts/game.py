@@ -1,4 +1,5 @@
 from data.scripts.objects import *
+import random
 
 class Game:
 	def __init__(self, window):
@@ -9,24 +10,31 @@ class Game:
 		self.objects.append(paddle)
 		self.objects.append(Ball(paddle))
 		
-		for x in range(6):
-			self.objects.append(Brick(160 + x*80, 160))
-			self.objects.append(Brick(120 + x*80, 200))
-		
 		self.lifes = 3
 		self.score = 0
 		self.clicked = False
+		self.generate_level()
 		
 		self.background = pygame.image.load("data/gfx/Background.png")
 		self.ball = pygame.image.load("data/gfx/Ball.png")
 		self.font = pygame.font.SysFont("monospace", 30)
 	
+	def generate_level(self):
+		self.wait_generate = False
+		i = 0
+		
+		for y in range(10):
+			for x in range(10):
+				if random.randrange(i+1) < 5:
+					i += 1
+					self.objects.append(Brick(x*80, y * 40))
+	
 	def update(self):
 		for object in self.objects: object.update(self)
 		self.objects = [object for object in self.objects if not hasattr(object, "destroyed")]
 		
-		if not self.get_objects(Brick):
-			self.score *= 2
+		if not self.get_objects(Brick) and not self.wait_generate:
+			self.wait_generate = True
 		
 		self.clicked = False
 	

@@ -39,11 +39,7 @@ class Ball:
 	def __init__(self, paddle):
 		self.texture = pygame.image.load("data/gfx/Ball.png")
 		self.paddle = paddle
-		self.x = 390
-		self.y = 540
-		self.vx = 1
-		self.vy = -1
-		self.started = False
+		self.reset()
 	
 	def update(self, state):
 		if state.clicked: self.started = True
@@ -68,17 +64,17 @@ class Ball:
 				elif self.vy < 0 and (self.y <= 0):
 					self.vy = -self.vy
 				elif self.vy > 0 and self.collides(self.paddle, 0, self.vy):
-					self.vx = ((self.x + 20) - (self.paddle.x + 80)) / 80.0
-					self.vy = -self.vy
+					if state.wait_generate:
+						state.generate_level()
+						self.reset()
+					else:
+						self.vx = ((self.x + 20) - (self.paddle.x + 80)) / 80.0
+						self.vy = -self.vy
 				else:
 					self.y += self.vy
 			
 			if self.y > 600:
-				self.y = 540
-				self.x = self.paddle.x + 70
-				self.vx = 1
-				self.vy = -1
-				self.started = False
+				self.reset()
 				
 				state.lifes -= 1
 				if state.lifes == 0:
@@ -92,3 +88,10 @@ class Ball:
 	
 	def collides(self, object, dx, dy):
 		return self.x + dx < object.x + object.w and self.x + dx + 20 > object.x and self.y + dy < object.y + object.h and self.y + dy + 20 > object.y
+	
+	def reset(self):
+		self.y = 540
+		self.x = self.paddle.x + 70
+		self.vx = 1
+		self.vy = -1
+		self.started = False
