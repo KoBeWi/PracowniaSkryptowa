@@ -8,7 +8,7 @@ Repozytorium zawiera 3 projekty na Pracownię języków skryptowych. Każdy proj
 ### Mario ✓
 Klon Mario napisany w Ruby.
 
-### Arkanoid ✗
+### Arkanoid ✓
 Klon Arkanoida napisany w Pythonie.
 
 ### Pong ✗
