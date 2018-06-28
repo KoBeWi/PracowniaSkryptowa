@@ -11,5 +11,5 @@ Klon Mario napisany w Ruby.
 ### Arkanoid ✓
 Klon Arkanoida napisany w Pythonie.
 
-### Pong ✗
+### Pong ✓
 Klon Ponga napisany w Javascripcie.
