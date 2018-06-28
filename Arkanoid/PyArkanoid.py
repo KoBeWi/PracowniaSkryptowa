@@ -28,7 +28,7 @@ class Window:
         self.state.update()
     
     def draw(self):
-        self.state.draw(self.screen)
+        self.state.draw()
 
 if __name__ == "__main__":
     window = Window()
