@@ -6,7 +6,7 @@ Lewy przycisk myszki - rozpoczêcie
 
 Potrzebne do uruchomienia:
 Python (mo¿liwe, ¿e trzeba 3)
-pygame
+pygame (pip install pygame)
 
 Uruchomienie:
-ruby python PyArkanoid.py
+python PyArkanoid.py
